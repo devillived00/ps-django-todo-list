@@ -1,0 +1,73 @@
+{% extends 'base/main.html' %}
+{% block content %}
+
+    <h2 class="todo-header">{{employee.first_name}} {{employee.last_name}} Task List:</h2>
+    <div class="row">
+      <div class="col-3">
+        <button type="button" name="newtask" data-bs-toggle="modal" id="new-task-modal-btn" data-bs-target="#new-task-modal" class="btn btn-light">Add a new task</button>
+        <a href="{% url 'export' employee.id %}" class="btn btn-light">EXPORT</a>
+
+      </div>
+      <div class="col-9">
+        <form method="GET">
+          <label for="state">Done</label>
+          <select name="state">
+            <option value="null"></option>
+            <option value="Done">Done</option>
+            <option value="Undone">Undone</option>
+          </select>
+          <label for="deadline">Start date</label>
+          <input type="date" name="start_date" id="start_date" value="2022-01-12">
+          <label for="deadline">End date</label>
+          <input type="date" name="end_date" id="end_date" value="2022-12-12">
+          <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+    
+    <ul class="task-list-responsive-table" id="taskTable" data-id="{{TaskList.id}}">
+        <li id="taskList" class="task-list-table-header" >
+            <div class="col col-1">Task Title</div>
+            <div class="col col-2">Task Description</div>
+            <div class="col col-3">Task Category</div>
+            <div class="col col-4">Task Deadline</div>
+            <div class="col col-5">Mark As Done</div>
+            <div class="col col-6">Delete</div>
+        </li>
+        {% csrf_token %}
+        {% for task in TaskList %}
+        <li id="taskCard" class="task-list-table-row" style="{% if task.state %} background-color: #8fffbf;{% endif %}" data-id="{{ task.id }}">
+            <div class="col col-1" data-label="Task Title">{{task.title}}</div>
+            <div class="col col-2" data-label="Task Description">{{task.description}}</div>
+            <div class="col col-3" data-label="Task Category">{{task.category}}</div>
+            <div class="col col-4" data-label="Task Deadline">{{task.deadline}}</div>
+            <div class="col col-5" data-label="Mark As Done"><button style="{% if task.state %} display:none; {% endif %}" type="button" name="taskdone" id="taskDoneButton" data-id="{{ task.id }}" class="markDoneButton">Done</button></div>
+            <div class="col col-6" data-label="Delete"><button type="button" name="deletetask" id="taskDeleteButton" class="deleteButton">Delete</button></div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="modal show" id="new-task-modal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newTaskModalLabel">New Task</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" id="new-task-btn-close" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                <form style="text-align:center;" id="task-form">
+                  {% for field in form %}
+                  <label>{{field.label}}</label>
+                  <p >
+                    {{field}}
+                  </p>
+    
+                  {% endfor %}
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+          </div>
+        </div>
+    </div>
+{% endblock content %}

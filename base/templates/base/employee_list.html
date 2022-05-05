@@ -1,0 +1,48 @@
+{% extends 'base/main.html' %} {% block content %}
+
+<button type="button" data-bs-toggle="modal" id="new-emp-modal-btn" data-bs-target="#new-emp-modal" class="btn btn-light">Add new employee</button>
+
+<ul class="employee-responsive-table" id="employeeListView">
+    <li id="task-appender" class="employee-table-header">
+        <div class="col col-1">Employee Details</div>
+        <div class="col col-2">Employee Name</div>
+        <div class="col col-3">Completed Tasks</div>
+        <div class="col col-4">Uncompleted Tasks</div>
+        <div class="col col-5">Task List</div>
+    </li>
+
+    {% for employee in employees %}
+        <li class="employee-table-row">
+            <div class="col col-1" data-label="Employee ID"><a href="{% url 'employee' employee.id %}" class="btn btn-light">Employee Details</a></div>
+            <div class="col col-2" data-label="Employee Name">{{employee.first_name}}</div>
+            <div class="col col-3" data-label="Completed Tasks">0</div>
+            <div class="col col-4" data-label="Uncompleted Tasks">0</div>
+            <div class="col col-5" data-label="Tasks List"><a href="{% url 'employee-task-list' employee.id %}" class="btn btn-light">View tasks</a></div>
+        </li>
+    {% endfor %}
+</ul>
+<div class="modal dark" id="new-emp-modal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="newEmpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newEmpModalLabel">New Employee</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" id="new-emp-modal-btn-close" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form style="text-align:center;" id="employee-form">
+              {% csrf_token %}
+              {% for field in form %}
+              <label>{{field.label}}</label>
+              <p >
+                {{field}}
+              </p>
+
+              {% endfor %}
+              <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock content %}

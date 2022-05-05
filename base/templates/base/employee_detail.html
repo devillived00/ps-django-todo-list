@@ -1,0 +1,20 @@
+{% extends 'base/main.html' %}
+{% block content %}
+<div class="employee-details">
+    <h1>
+        {{employee.first_name}}
+        {{employee.last_name}}
+    </h1>
+        <span><strong>Hired from:</strong></span>
+        <p>{{employee.hired_from}}</p>
+        <span><strong>Birth date:</strong></span>
+        <p>{{employee.birth_date}}</p>
+        <span><strong>Salary:</strong></span>
+        <p>{{employee.salary}} PLN</p>
+        <span><strong>Bio:</strong></span>
+        <p>
+            {{employee.bio}}
+        </p>
+        
+</div>
+{% endblock content %}

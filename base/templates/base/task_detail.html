@@ -1,0 +1,36 @@
+{% extends 'base/main.html' %}
+{% block content %}
+<div style="margin-top: 50px;" class="task-details">
+    <h1 style="margin-top: 50px;" class="text-center">
+        {{Task.title}}
+    </h1>
+    <div style="text-align: center;margin-top: 50px;" class="row">
+        <div class="col-6">
+            <span><strong>Owner:</strong></span>
+            <p>{{Task.employee.first_name}}</p>
+            <span><strong>Deadline</strong></span>
+            <p>{{Task.deadline}}</p>
+        </div>
+        <div class="col-6">
+            <span><strong>Category:</strong></span>
+            <p>{{Task.category}}</p>
+            <span><strong>Done:</strong></span>
+            {% if Task.state %}
+                <p>Done</p>
+            {% else %}
+                <p>Undone</p>
+            {% endif %}
+        </div>
+    </div>
+   <div class="row">
+        <div style="text-align: center;" class="col-md-6 offset-md-3">
+           <span><strong>Description:</strong></span>
+        </div>
+        <div class="col-md-6 offset-md-3">
+            <p>{{Task.description}}</p>
+        </div>
+   </div>
+   
+        
+</div>
+{% endblock content %}
