@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 
 
@@ -26,9 +27,20 @@ class Employee(models.Model):
 
     def get_employees_tasks(self, **kwargs):
         return Task.objects.filter(employee_id=self.id, **kwargs)
+    
+    def get_completed_tasks_count(self):
+        return len(self.get_employees_tasks(state=True))
+    
+    def get_uncompleted_tasks_count(self):
+        return len(self.get_employees_tasks(state=False))
             
-            
-
+class EmployeesImport(models.Model):
+    import_file = models.FileField(upload_to="imports")
+    uploaded = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.id}_{self.created}"
 
 class Task(models.Model):
     employee = models.ForeignKey(

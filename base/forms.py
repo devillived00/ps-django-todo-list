@@ -1,5 +1,5 @@
 from django import forms
-from base.models import Employee, Task
+from base.models import Employee, Task, EmployeesImport
 
 
 class EmployeeForm(forms.ModelForm):
@@ -17,3 +17,9 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = ['employee', 'title', 'description',
                   'deadline', 'category']
+        
+class EmployeeImportForm(forms.ModelForm):
+    
+    class Meta:
+        model = EmployeesImport
+        fields = ['import_file']

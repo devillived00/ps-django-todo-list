@@ -1,10 +1,17 @@
 from .models import Employee, Task
 from rest_framework import serializers
+from datetime import date
 
+class FilteredTasksSerializer(serializers.ListSerializer):
+
+    def to_representation(self, data):
+        data = data.filter(deadline=date.today())
+        return super(FilteredTasksSerializer, self).to_representation(data)
 
 class TaskSerializer(serializers.ModelSerializer):
     
     class Meta:
+        list_serializer_class = FilteredTasksSerializer
         model = Task
         fields = '__all__'
         

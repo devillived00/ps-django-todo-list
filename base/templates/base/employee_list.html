@@ -1,6 +1,7 @@
 {% extends 'base/main.html' %} {% block content %}
 
 <button type="button" data-bs-toggle="modal" id="new-emp-modal-btn" data-bs-target="#new-emp-modal" class="btn btn-light">Add new employee</button>
+<a href="{% url 'import' %}" class="btn btn-light" >Import employees</a>
 
 <ul class="employee-responsive-table" id="employeeListView">
     <li id="task-appender" class="employee-table-header">
@@ -15,8 +16,8 @@
         <li class="employee-table-row">
             <div class="col col-1" data-label="Employee ID"><a href="{% url 'employee' employee.id %}" class="btn btn-light">Employee Details</a></div>
             <div class="col col-2" data-label="Employee Name">{{employee.first_name}}</div>
-            <div class="col col-3" data-label="Completed Tasks">0</div>
-            <div class="col col-4" data-label="Uncompleted Tasks">0</div>
+            <div class="col col-3" data-label="Completed Tasks">{{employee.get_completed_tasks_count}}</div>
+            <div class="col col-4" data-label="Uncompleted Tasks">{{employee.get_uncompleted_tasks_count}}</div>
             <div class="col col-5" data-label="Tasks List"><a href="{% url 'employee-task-list' employee.id %}" class="btn btn-light">View tasks</a></div>
         </li>
     {% endfor %}
@@ -44,5 +45,6 @@
       </div>
     </div>
 </div>
+
 
 {% endblock content %}

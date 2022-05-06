@@ -1,0 +1,15 @@
+{% extends 'base/main.html' %} 
+{% block content %}
+<form method="POST" enctype="multipart/form-data" style="margin-top:70px;text-align:center;">
+    <h1 style="margin-bottom:30px;">Employees Import</h1>
+    {% csrf_token %}
+        
+    {% for field in import_form %}
+    
+    <label for="import-field">{{field.label}}:</label>
+    <p name="import-field">{{field}}</p>
+    {% endfor %}
+    
+    <button type="submit" class="btn btn-light">Import</button>
+</form>
+{% endblock content %}
